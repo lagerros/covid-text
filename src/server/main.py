@@ -63,7 +63,7 @@ class Place:
 async def index(request: Request) -> Response:
     """TODO: this is the main hompage, should have a bubble map which should
     link ot the /model"""
-    return templates.TemplateResponse("index.html", {"request": request},)
+    return templates.TemplateResponse(request, "index.html")
 
 
 @app.get("/request-calculation")
@@ -74,8 +74,9 @@ async def request_calculation(request: Request) -> Response:
     places = [Place(place) for place in PLACES]
 
     return templates.TemplateResponse(
+        request,
         "request-calculation.html",
-        {"request": request, "message": "Please provide data", "places": places},
+        {"message": "Please provide data", "places": places},
     )
 
 
@@ -84,7 +85,7 @@ async def model(request: Request, country: str = "USA") -> Response:
     """TODO: this should serve the main model visualization"""
     arguments = {"country": country} if country else {}
     # TODO: parse the argument for the plot
-    return templates.TemplateResponse("model.html", {"request": request})
+    return templates.TemplateResponse(request, "model.html")
 
 
 @app.get("/request-event-evaluation")
@@ -93,8 +94,9 @@ async def request_event_evaluation(request: Request) -> Response:
     places = [Place(place) for place in PLACES]
 
     return templates.TemplateResponse(
+        request,
         "request-event-evaluation.html",
-        {"request": request, "message": "Please provide data", "places": places},
+        {"message": "Please provide data", "places": places},
     )
 
 
@@ -131,9 +133,9 @@ async def result_event_evaluation(
     except KeyError:
         probability = "unknown"
     return templates.TemplateResponse(
+        request,
         "result-event-evaluation.html",
         {
-            "request": request,
             "datepicker": datepicker,
             "number": number,
             "place": place,
@@ -145,11 +147,9 @@ async def result_event_evaluation(
 @app.get("/thanks")
 async def result_calculations(request: Request) -> Response:
 
-    return templates.TemplateResponse("thanks.html", {"request": request,},)
+    return templates.TemplateResponse(request, "thanks.html")
 
 
 @app.get("/contact")
 async def request_calculation(request: Request) -> Response:
-    return templates.TemplateResponse(
-        "contact-form.html", {"request": request, "message": ""},
-    )
+    return templates.TemplateResponse(request, "contact-form.html", {"message": ""})
