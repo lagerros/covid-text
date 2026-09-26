@@ -36,10 +36,9 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-python@master
       with:
-        python-version: 3.8
+        python-version: "3.12"
     - run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-        source $HOME/.poetry/env
+        pip install poetry
         poetry install
         poetry run pytest tests
 
